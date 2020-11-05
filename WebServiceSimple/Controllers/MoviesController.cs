@@ -2,6 +2,7 @@
 using System.Linq;
 using DataServiceLib;
 using Microsoft.AspNetCore.Mvc;
+using WebServiceSimple.Models;
 
 namespace WebServiceSimple.Controllers
 {
