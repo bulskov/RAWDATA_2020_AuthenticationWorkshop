@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebServiceToken.Controllers
 {
     [ApiController]
-    [Route("api/v1/movies")]
+    [Route("api/v3/movies")]
     public class MoviesController : ControllerBase
     {
         private readonly IDataService _dataService;
