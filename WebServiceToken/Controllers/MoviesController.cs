@@ -2,6 +2,7 @@
 using System.Linq;
 using DataServiceLib;
 using Microsoft.AspNetCore.Mvc;
+using WebServiceToken.Attributes;
 using WebServiceToken.Models;
 
 namespace WebServiceToken.Controllers
@@ -17,29 +18,33 @@ namespace WebServiceToken.Controllers
             _dataService = dataService;
         }
 
+        [Authorization]
         [HttpGet]
         public IActionResult GetMovies()
         {
             try
             {
-                var movies = _dataService.GetMovies(-1);
+                var user = Request.HttpContext.Items["User"] as User;
+                var movies = _dataService.GetMovies(user.Id);
                 return Ok(movies.Select(CreateMovieDto));
             }
-            catch (ArgumentException)
+            catch (Exception)
             {
                 return Unauthorized();
             }
         }
 
+        [Authorization]
         [HttpGet("{movieId}", Name = nameof(GetMovie))]
         public IActionResult GetMovie(string movieId)
         {
             try
             {
-                var movie = _dataService.GetMovie(-1, movieId);
+                var user = Request.HttpContext.Items["User"] as User;
+                var movie = _dataService.GetMovie(1, movieId);
                 return Ok(CreateMovieDto(movie));
             }
-            catch (ArgumentException)
+            catch (Exception)
             {
                 return Unauthorized();
             }
@@ -55,7 +60,7 @@ namespace WebServiceToken.Controllers
         {
             return new MovieDto
             {
-                Url = Url.Link(nameof(GetMovie), new { Id = movie.Id}),
+                Url = Url.Link(nameof(GetMovie), new { movieId = movie.Id}),
                 Title = movie.Title,
                 Type = movie.Type
             };

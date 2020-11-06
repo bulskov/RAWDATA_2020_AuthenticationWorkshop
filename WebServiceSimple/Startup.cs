@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebServiceSimple.Middleware;
 
 namespace WebServiceSimple
 {
@@ -25,6 +26,8 @@ namespace WebServiceSimple
             }
 
             app.UseRouting();
+
+            app.UseAuth();
 
             app.UseEndpoints(endpoints =>
             {

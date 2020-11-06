@@ -58,7 +58,7 @@ namespace WebServiceHardcodedUser.Controllers
         {
             return new MovieDto
             {
-                Url = Url.Link(nameof(GetMovie), new { Id = movie.Id}),
+                Url = Url.Link(nameof(GetMovie), new { movieId = movie.Id}),
                 Title = movie.Title,
                 Type = movie.Type
             };

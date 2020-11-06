@@ -9,7 +9,8 @@ namespace DataServiceLib
         IList<Movie> GetMovies(int userId);
         Movie GetMovie(int userId, string movieId);
         User GetUser(string username);
-        User CreateUser(string name, string username);
+        User GetUser(int id);
+        User CreateUser(string name, string username, string password = null, string salt = null);
     }
 
     public class DataService : IDataService
@@ -36,13 +37,20 @@ namespace DataServiceLib
             return _users.FirstOrDefault(x => x.Username == username);
         }
 
-        public User CreateUser(string name, string username)
+        public User GetUser(int id)
+        {
+            return _users.FirstOrDefault(x => x.Id == id);
+        }
+
+        public User CreateUser(string name, string username, string password = null, string salt = null)
         {
             var user = new User
             {
                 Id = _users.Max(x => x.Id) + 1,
                 Name = name,
-                Username = username
+                Username = username,
+                Password = password,
+                Salt = salt
             };
             _users.Add(user);
             return user;

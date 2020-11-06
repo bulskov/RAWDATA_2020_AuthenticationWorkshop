@@ -20,9 +20,15 @@ namespace WebServiceSimple.Controllers
         [HttpGet]
         public IActionResult GetMovies()
         {
+           
+            if (Program.CurrentUser == null)
+            {
+                return Unauthorized();
+            }
+
             try
             {
-                var movies = _dataService.GetMovies(-1);
+                var movies = _dataService.GetMovies(Program.CurrentUser.Id);
                 return Ok(movies.Select(CreateMovieDto));
             }
             catch (ArgumentException)
@@ -34,9 +40,14 @@ namespace WebServiceSimple.Controllers
         [HttpGet("{movieId}", Name = nameof(GetMovie))]
         public IActionResult GetMovie(string movieId)
         {
+            if (Program.CurrentUser == null)
+            {
+                return Unauthorized();
+            }
+
             try
             {
-                var movie = _dataService.GetMovie(-1, movieId);
+                var movie = _dataService.GetMovie(Program.CurrentUser.Id, movieId);
                 return Ok(CreateMovieDto(movie));
             }
             catch (ArgumentException)
@@ -55,7 +66,7 @@ namespace WebServiceSimple.Controllers
         {
             return new MovieDto
             {
-                Url = Url.Link(nameof(GetMovie), new { Id = movie.Id}),
+                Url = Url.Link(nameof(GetMovie), new { movieId = movie.Id}),
                 Title = movie.Title,
                 Type = movie.Type
             };

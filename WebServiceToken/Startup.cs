@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebServiceToken.Middleware;
 
 namespace WebServiceToken
 {
@@ -25,6 +26,8 @@ namespace WebServiceToken
             }
 
             app.UseRouting();
+
+            app.UseJwtAuth();
 
             app.UseEndpoints(endpoints =>
             {
